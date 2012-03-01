@@ -5,8 +5,9 @@ require 'sinatra'
 class Torrent < Sequel::Model; end
 
 TRACKERS = [
-  'udp://tracker.publicbt.com:80/announce',
   'udp://tracker.openbittorrent.com:80/announce',
+  'http://announce.torrentsmd.com:8080/announce.php',
+  'udp://tracker.publicbt.com:80/announce',
 ]
 
 class Santa < Sinatra::Application
