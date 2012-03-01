@@ -14,20 +14,6 @@ check () {
 }
 
 depends () {
-	check transmission-daemon <<-ERR
-Mac OSX:
-
-  $ brew install transmission
-
-Debian / Ubuntu:
-
-  $ apt-get install transmission-cli
-
-Otherwise, pick it up at:
-
-  http://www.transmissionbt.com/
-	ERR
-	
 	check bundle <<-ERR
 Try:
 
