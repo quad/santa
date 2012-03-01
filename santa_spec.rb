@@ -69,6 +69,6 @@ describe Santa do
 
     assert last_response.ok?
     parsed_response = JSON.parse last_response.body
-    parsed_response.must_equal [{'ih' => ih, 'dn' => dn}]
+    parsed_response.must_equal [{'ih' => ih, 'dn' => dn, 'tr' => TRACKERS}]
   end
 end

@@ -4,6 +4,11 @@ require 'sinatra'
 
 class Torrent < Sequel::Model; end
 
+TRACKERS = [
+  'udp://tracker.publicbt.com:80/announce',
+  'udp://tracker.openbittorrent.com:80/announce',
+]
+
 class Santa < Sinatra::Application
   put '/' do
     parsed_request = JSON.parse request.body.read
@@ -26,6 +31,7 @@ class Santa < Sinatra::Application
       {
         ih: t.info_hash,
         dn: t.display_name,
+        tr: TRACKERS,
       }
     end.to_json
   end
