@@ -25,7 +25,7 @@ describe Santa do
 
   let(:app) { Santa }
 
-  let(:ih) { 'abc123' }
+  let(:ih) { '0daa24cd1bd8281996125e292e399d9ad46750f9' }
   let(:dn) { 'lulz.mp3 torrent' }
 
   it 'should post a new torrent' do
@@ -33,6 +33,33 @@ describe Santa do
 
     assert last_response.ok?
     Torrent[info_hash: ih].wont_be_nil
+  end
+
+  it 'should reject invalid infohashes' do
+    [
+      'abc123',
+      nil,
+      '',
+      0,
+      1.0,
+      false,
+      '0daa24cd1bd8281996125e292e399d9ad46750f9xxx'
+    ].each do |bad_ih|
+      put '/', [{ih: bad_ih, dn: dn}].to_json
+
+      refute last_response.ok?, "Accepted invalid infohash: #{bad_ih}"
+    end
+  end
+
+  it 'should reject invalid display names' do
+    [
+      nil,
+      '',
+    ].each do |bad_dn|
+      put '/', [{ih: ih, dn: bad_dn}].to_json
+
+      refute last_response.ok?, "Accepted invalid display name: #{bad_dn}"
+    end
   end
 
   it 'should show posted torrents' do

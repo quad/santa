@@ -8,8 +8,9 @@ class Santa < Sinatra::Application
   put '/' do
     parsed_request = JSON.parse request.body.read
     parsed_request.each do |torrent|
-      ih = torrent['ih']
-      dn = torrent['dn']
+      ih, dn = torrent['ih'].to_s, torrent['dn'].to_s
+      return 400 unless ih =~ /^[0-9a-fA-F]{40}$/
+      return 400 if dn.empty?
 
       Torrent.find_or_create(info_hash: ih) do |t|
         t.info_hash = ih
